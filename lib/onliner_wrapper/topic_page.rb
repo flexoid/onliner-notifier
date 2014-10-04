@@ -23,6 +23,16 @@ module OnlinerWrapper
       posts.last.post_id
     end
 
+    def new_posts(last_post_id)
+      posts.select { |post| post.post_id > last_post_id }
+    end
+
+    def posts
+      @_posts ||= page.search('.msgpost:not(.msgfirst)').map do |node|
+        Post.new(node)
+      end
+    end
+
     private
 
       def generate_url(topic_id, page)
@@ -32,15 +42,6 @@ module OnlinerWrapper
 
       def load(url)
         @page = agent.get(url)
-      end
-
-      def posts
-        @_posts ||= page.search('.msgpost:not(.msgfirst)').map do |node|
-          Post.new(node)
-        end
-      end
-
-      def raw_messages
       end
   end
 end

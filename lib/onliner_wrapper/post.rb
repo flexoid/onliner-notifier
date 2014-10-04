@@ -13,6 +13,14 @@ module OnlinerWrapper
       @_author ||= @node.search('.mtauthor-nickname a._name')[0].content
     end
 
+    def content_text
+      @_content ||= @node.search('.content')[0].content
+    end
+
+    def time_text
+      @_time_text ||= @node.search('.msgpost-date span')[0].content
+    end
+
     def inspect
       "#<#{self.class.name} id: #{post_id.inspect} author: #{author.inspect}>"
     end
